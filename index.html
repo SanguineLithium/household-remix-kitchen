@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f5ef">
+<title>Household Remix Kitchen — Offline Meal Planner</title>
+<style>
+:root{--bg:#f7f5ef;--surface:#fffdf8;--text:#253428;--muted:#637068;--forest:#214e3b;--forest2:#35634c;--mint:#e2eee3;--cream:#f1ecdf;--amber:#915c19;--amberbg:#fff0d2;--red:#9d4143;--redbg:#fbe9e5;--line:#deded4;--radius:17px;--shadow:0 5px 22px #2b332d09}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.46}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #91bf8a;outline-offset:2px}h1,h2,h3,p{margin-top:0}h1{font-family:Georgia,serif;font-size:clamp(2.15rem,4vw,3.15rem);line-height:1.09;letter-spacing:-.035em;margin-bottom:12px}h2{font-family:Georgia,serif;letter-spacing:-.02em;font-size:1.52rem;margin-bottom:5px}h3{font-size:1.05rem;margin-bottom:6px}small,.small{font-size:.82rem}strong{font-weight:700}a{color:inherit}button{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;padding:10px 13px;font-weight:650;transition:.12s ease}button:hover{border-color:#a1b6a5;background:#f1f7f0}button.primary{background:var(--forest);border-color:var(--forest);color:white}button.primary:hover{background:#163c2c}button.ghost{background:transparent}button.smallbtn{padding:7px 10px;font-size:.82rem}.wrap{max-width:1460px;padding:28px clamp(15px,3vw,40px) 60px;margin:auto}.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:23px}.eyebrow{display:inline-block;font-weight:750;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--forest2);margin-bottom:10px}.tagline{max-width:740px;color:var(--muted);margin:0;font-size:1rem}.hero-mark{background:var(--mint);padding:12px 15px;border:1px solid #cadfca;border-radius:99px;white-space:nowrap;color:var(--forest);font-size:.85rem;font-weight:700}.toolbar{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin-bottom:20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}.toolbar label{display:grid;gap:4px;font-size:.8rem;color:var(--muted);font-weight:700}.toolbar input,.toolbar select{border:1px solid #d7ddd2;border-radius:9px;padding:9px 10px;color:var(--text);background:white;min-height:40px}.toolbar .spacer{flex:1}.layout{display:grid;grid-template-columns:minmax(286px,340px) minmax(0,1fr);gap:20px;align-items:start}.panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow);padding:20px}.sidebar{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto}.sub{color:var(--muted);font-size:.87rem;margin-bottom:15px}.hint{color:var(--muted);font-size:.77rem}.search{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:white;min-height:42px}.cat-head{display:flex;align-items:center;justify-content:space-between;margin:20px 0 7px;font-size:.77rem;letter-spacing:.06em;color:var(--forest);font-weight:800;text-transform:uppercase}.ing-row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0e9}.ing-row:last-child{border-bottom:0}.ing-name{font-size:.87rem;font-weight:620;min-width:0}.qty-wrap{display:flex;gap:5px;align-items:center;flex-shrink:0}.qty{width:63px;min-width:0;border:1px solid #d9dfd7;background:#fff;padding:7px 5px;border-radius:8px;text-align:right;font-variant-numeric:tabular-nums}.unit{font-size:.73rem;color:var(--muted);width:54px}.legend-mini{display:flex;gap:9px;flex-wrap:wrap;font-size:.72rem;color:var(--muted);margin-top:13px}.dot{height:7px;width:7px;background:var(--forest2);border-radius:50%;display:inline-block;margin-right:4px}.content{min-width:0;display:grid;gap:19px}.stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}.stat{padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:13px}.stat-number{font-size:1.85rem;font-weight:790;letter-spacing:-.055em;line-height:1.1}.stat-label{font-size:.78rem;color:var(--muted);margin-top:4px}.section-header{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:15px}.base-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}.base-card{background:#f8f8f2;border:1px solid var(--line);border-radius:13px;padding:14px;min-width:0}.base-num{font-size:.7rem;font-weight:800;color:var(--forest2);letter-spacing:.12em;text-transform:uppercase}.base-title{font-size:.95rem;font-weight:780;margin:5px 0}.base-qty{font-family:Georgia,serif;color:var(--forest);font-size:1.25rem;margin:8px 0 4px}.base-copy{font-size:.79rem;color:var(--muted)}.week{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.day{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:white;min-width:0}.day.unplanned{border-color:#e7c8af;background:#fffdf8}.day.off{opacity:.74}.day.done{border-color:#bdd5bd;background:#fbfdf9}.day.done .day-top{background:#e6f1e4}.day-footer{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #eef0e8}.day-footer .hint{flex:1;min-width:125px}.day-footer button{font-size:.78rem;padding:8px 11px}.pill.complete{background:#dcecd9;color:#285b3c}.mini-actions{display:flex;flex-wrap:wrap;gap:6px}.muted-alert{border-left:3px solid #c6d4be;padding:8px 10px;background:#f4f8f1;font-size:.78rem;color:#516357;margin-top:12px}.day-top{display:flex;gap:12px;align-items:start;justify-content:space-between;background:#f5f7f2;padding:13px 14px;border-bottom:1px solid var(--line)}.day-heading{min-width:0}.day-title{font-size:1rem;font-weight:800}.day-date{font-size:.78rem;color:var(--muted)}.day-controls{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.day-controls select{min-width:0;max-width:140px;border:1px solid #d5ded2;border-radius:8px;background:white;padding:7px;font-size:.76rem;font-weight:600}.day-body{padding:13px 14px 15px}.dish-name{font-family:Georgia,serif;font-size:1.21rem;font-weight:700;line-height:1.22;margin:4px 0 7px}.dish-detail{color:var(--muted);font-size:.83rem;margin-bottom:13px}.pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}.pill{font-size:.69rem;font-weight:750;padding:4px 7px;border-radius:99px;background:#e8efe8;color:#335744}.pill.gold{background:var(--amberbg);color:var(--amber)}.pill.red{background:var(--redbg);color:var(--red)}.step{display:grid;grid-template-columns:80px 1fr;gap:8px;align-items:start;margin-top:9px;padding-top:9px;border-top:1px solid #eef0e8}.step-label{text-transform:uppercase;letter-spacing:.075em;color:var(--forest2);font-size:.67rem;font-weight:800;padding-top:3px}.step-body{font-size:.81rem;color:#46534b}.step-body ul{margin:0;padding-left:16px}.step-body li{margin-bottom:5px}.step-body li:last-child{margin-bottom:0}.note{padding:11px 12px;background:#eef4e9;border-radius:11px;font-size:.83rem;color:#37513f;margin-top:14px}.warning{color:var(--red);font-size:.83rem}.status{min-height:22px;font-size:.8rem;color:var(--forest);margin-top:8px}.bar{height:7px;background:#e7e9e0;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;background:#719b72;border-radius:99px}.projection{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px}.remain-item{min-width:0}.remain-meta{display:flex;justify-content:space-between;gap:8px;font-size:.78rem;margin-bottom:5px}.remain-meta span:last-child{color:var(--muted);text-align:right}.meal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.meal-card{border:1px solid var(--line);border-radius:13px;padding:13px;background:#fff;display:flex;flex-direction:column;gap:7px}.meal-card header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}.meal-card h3{font-size:.95rem;margin:0}.meal-card p{font-size:.8rem;margin:0;color:var(--muted)}.meal-card details{font-size:.8rem;margin-top:auto}.meal-card summary{cursor:pointer;color:var(--forest2);font-weight:750}.meal-card details p{margin-top:7px}.pill.smallpill{font-size:.66rem}.filterline{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted)}.filterline input{accent-color:var(--forest)}.footer-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.footer-notes>div{padding:13px;background:#f6f5ef;border-radius:11px;font-size:.79rem;color:var(--muted)}.empty{font-size:.86rem;color:var(--muted);padding:15px 0}.instructions{font-size:.81rem;color:var(--muted);margin-top:9px}.accent{color:var(--forest);font-weight:700}.screen-reader{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.no-print{display:block}
+@media(max-width:1150px){.base-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.meal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static;max-height:none}.ing-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}.hero-mark{display:none}}
+@media(max-width:590px){.wrap{padding:17px 12px 42px}.toolbar{padding:12px}.toolbar .spacer{display:none}.toolbar button{flex:1}.week,.meal-grid,.projection,.footer-notes,.ing-groups{grid-template-columns:1fr}.base-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.day-top{flex-direction:column}.day-controls{justify-content:flex-start;width:100%}.day-controls select{flex:1;max-width:none}.hero{margin-bottom:17px}.panel{padding:14px}.step{grid-template-columns:70px 1fr}.stat-number{font-size:1.55rem}}
+@media print{body{background:white;color:black}.wrap{max-width:none;padding:0}.hero-mark,.toolbar,.sidebar,.day-controls,.meal-card,.filterline,.no-print,button{display:none!important}.layout{display:block}.content{display:block}.panel,.stat,.day,.base-card{box-shadow:none;break-inside:avoid;border-color:#c9c9c9}.panel{margin:10px 0}.stat-grid,.base-grid{margin:10px 0}.week{display:grid;grid-template-columns:1fr 1fr}.day{break-inside:avoid}.footer-notes{break-inside:avoid}.status{display:none}}
+
+/* v3 visual system: clear hierarchy, ample touch targets, and predictable reading rhythm */
+:root{--bg:#f5f5f0;--surface:#fff;--text:#23352a;--muted:#5f7066;--line:#e0e7df;--forest:#24533d;--mint:#eaf3e9;--radius:20px}
+body{line-height:1.58}
+.wrap{max-width:1360px;padding:36px clamp(18px,3.8vw,56px) 90px}
+.hero{margin-bottom:24px;align-items:center}
+.hero h1{font-size:clamp(2.3rem,3.8vw,3.65rem);line-height:1.08;margin-bottom:15px}
+.tagline{max-width:680px;line-height:1.65;font-size:1.01rem}
+.eyebrow{letter-spacing:.11em;margin-bottom:11px}
+.jump-nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:17px}
+.jump-nav a{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 15px;font-size:.83rem;font-weight:650;text-decoration:none;color:var(--forest)}
+.jump-nav a:hover,.jump-nav a:focus-visible{background:var(--mint)}
+.toolbar{gap:15px;align-items:center;padding:20px 22px;margin-bottom:28px;box-shadow:none}
+.toolbar label{font-size:.8rem;min-width:135px;gap:7px}
+.toolbar label input,.toolbar label select{width:100%;min-height:44px}
+.toolbar .spacer{flex-basis:100%;height:0;display:none}
+.toolbar button{min-height:40px}
+.layout{grid-template-columns:minmax(300px,350px) minmax(0,1fr);gap:26px}
+.panel{box-shadow:none;padding:26px;border-radius:20px}
+.sidebar{position:static;max-height:none;overflow:visible}
+.content{gap:25px}
+h2{font-size:clamp(1.45rem,2vw,1.82rem);margin-bottom:8px}
+.sub{font-size:.9rem;line-height:1.6;margin-bottom:22px}
+.section-header{margin-bottom:23px;gap:20px;flex-wrap:wrap}
+.stat-grid{gap:14px}
+.stat{padding:21px 18px;border-radius:16px}
+.stat-number{font-size:2rem}
+.stat-label{font-size:.81rem;margin-top:8px}
+.pantry-guide{background:var(--mint);border-radius:13px;padding:14px 16px;font-size:.87rem;line-height:1.6;margin:18px 0}
+.pantry-count{font-size:.83rem;color:var(--forest);font-weight:750;margin:8px 0 17px}
+.ing-group{margin-bottom:27px}
+.cat-head{font-size:.75rem;margin:0 0 10px;padding:0 0 12px;border-bottom:1px solid var(--line)}
+.ing-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:12px 2px;border-bottom:1px solid #edf0eb;min-height:53px}
+.ing-row:last-child{border-bottom:0}
+.ing-check{display:flex;align-items:center;gap:12px;cursor:pointer;min-width:0;flex:1}
+.ing-check input{width:19px;height:19px;margin:0;accent-color:var(--forest);flex-shrink:0;cursor:pointer}
+.ing-name{font-size:.91rem;font-weight:620;line-height:1.35}
+.ing-row.active .ing-name{color:var(--forest)}
+.qty-wrap{display:flex;align-items:center;gap:8px;padding-left:31px;margin-left:auto}
+.qty{width:70px;min-height:40px;border-color:#d0dacf;padding:7px 9px;font-size:.91rem;text-align:center}
+.unit{font-size:.79rem;min-width:46px;width:auto}
+.pantry-footnote{font-size:.8rem;line-height:1.62;color:var(--muted);background:#f7f8f4;padding:14px;border-radius:12px}
+.base-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.base-card{padding:21px;border-radius:15px;min-height:170px;background:#f8faf6}
+.base-num{font-size:.72rem}
+.base-title{font-size:1.08rem;margin:9px 0}
+.base-qty{font-size:1.35rem;margin:13px 0 8px}
+.base-copy{font-size:.84rem;line-height:1.57}
+.week{grid-template-columns:1fr;gap:17px}
+.day{border-radius:17px}
+.day-top{padding:19px 22px;background:#f7f9f6;gap:14px}
+.day-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.day-title{font-size:1.13rem}
+.day-date{font-size:.85rem}
+.day-controls{gap:12px;align-items:center;justify-content:flex-end}
+.day-control-label{display:grid;gap:4px;font-size:.69rem;font-weight:750;color:var(--muted);text-transform:uppercase;letter-spacing:.065em}
+.day-controls select{font-size:.87rem;max-width:220px;min-width:130px;min-height:42px;border-radius:10px;padding:7px 9px}
+.day-controls label:last-child select{max-width:240px}
+.day-body{padding:21px 23px 22px}
+.dish-name{font-size:clamp(1.3rem,2vw,1.55rem);margin:7px 0 7px}
+.dish-detail{font-size:.88rem;line-height:1.6;margin-bottom:15px}
+.pill{padding:5px 10px;font-size:.72rem}
+.pills{gap:8px;margin-bottom:10px}
+.day-plan-details{margin-top:15px;border:1px solid var(--line);border-radius:12px;padding:0;background:#fdfefd;overflow:hidden}
+.day-plan-details>summary{padding:14px 16px;list-style:none;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:.88rem;color:var(--forest);font-weight:750}
+.day-plan-details>summary::-webkit-details-marker{display:none}
+.day-plan-details>summary:after{content:'+';font-size:1.35rem;line-height:1;font-weight:400}
+.day-plan-details[open]>summary{border-bottom:1px solid var(--line)}
+.day-plan-details[open]>summary:after{content:'−'}
+.steps-wrap{padding:4px 16px 15px}
+.step{grid-template-columns:115px 1fr;gap:15px;padding-top:15px;margin-top:12px}
+.step-label{font-size:.74rem;padding-top:2px}
+.step-body{font-size:.9rem;line-height:1.58}
+.step-body li{margin-bottom:8px}
+.step-body ul{padding-left:19px}
+.day-footer{margin-top:18px;padding-top:17px;gap:12px}
+.day-footer button{font-size:.85rem;min-height:41px}
+.day-footer .hint{font-size:.78rem}
+.day-plan-summary{font-size:.85rem;color:var(--muted);margin:4px 0 0}
+.meal-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.meal-card{padding:19px;border-radius:14px;gap:12px}
+.meal-card h3{font-size:1.03rem;line-height:1.4}
+.meal-card p{font-size:.86rem;line-height:1.6}
+.meal-card details{font-size:.88rem}
+.projection{gap:18px 26px}
+.remain-meta{font-size:.85rem;margin-bottom:8px}
+.bar{height:8px}
+.footer-notes{gap:15px}
+.footer-notes>div{padding:18px;font-size:.86rem;line-height:1.65}
+.instructions{font-size:.81rem;line-height:1.7;margin-top:16px}
+.status{padding:9px 0 0;font-size:.87rem;line-height:1.6}
+button{transition:background .15s,border-color .15s,transform .15s}
+button:active{transform:translateY(1px)}
+@media(max-width:1160px){.layout{grid-template-columns:305px minmax(0,1fr)}.toolbar .spacer{display:block}.base-grid{grid-template-columns:1fr 1fr}.day-top{flex-direction:column}.day-controls{justify-content:flex-start;width:100%}}
+@media(max-width:930px){.layout{grid-template-columns:1fr}.ing-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 26px}.sidebar{padding-bottom:12px}.base-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.day-top{flex-direction:row}.day-controls{width:auto}}
+@media(max-width:650px){.wrap{padding:22px 14px 54px}.hero{margin-bottom:22px}.hero h1{font-size:2.35rem}.toolbar{padding:16px;gap:12px}.toolbar label{flex:1;min-width:125px}.toolbar button{flex:1 1 auto}.jump-nav{gap:8px}.jump-nav a{font-size:.77rem;padding:7px 10px}.panel{padding:21px 17px}.ing-groups,.base-grid,.meal-grid,.projection,.footer-notes{grid-template-columns:1fr}.ing-group{margin-bottom:9px}.stat{padding:15px}.stat-number{font-size:1.7rem}.stat-label{font-size:.74rem}.day-top{flex-direction:column;padding:16px}.day-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;gap:10px}.day-control-label,.day-controls select{min-width:0;max-width:100%;width:100%}.day-body{padding:18px 16px}.step{grid-template-columns:1fr;gap:2px}.step-label{padding:0}.steps-wrap{padding:4px 14px 14px}.day-footer .hint{min-width:0}.filterline{margin:10px 0 0}}
+@media(max-width:390px){.day-controls{grid-template-columns:1fr}.hero h1{font-size:2.05rem}.toolbar label{min-width:100%}.stat-grid{gap:9px}}
+@media print{.jump-nav,.pantry-guide,.pantry-count,.pantry-footnote{display:none!important}.week{grid-template-columns:1fr}.day-plan-details{border:none;overflow:visible}.day-plan-details>summary{display:none}.day-plan-details:not([open]) .steps-wrap{display:block}.day-top{display:flex}.day-body{padding:12px}.layout{display:block}.panel{break-inside:auto}.day{break-inside:avoid}.meal-grid{display:none}.base-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* Stage 2: a quiet hierarchy and a deliberately roomy checklist */
+.toolbar{display:block;padding:19px 21px;margin-bottom:24px}
+.settings-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(155px,.6fr) minmax(220px,1fr);gap:16px;align-items:end}
+.settings-grid>label{display:grid;gap:8px;min-width:0;font-size:.8rem;font-weight:700;color:var(--muted)}
+.settings-grid input,.settings-grid select{width:100%;min-width:0;min-height:44px;border:1px solid #d7e1d7;border-radius:10px;background:white;padding:9px 12px;color:var(--text)}
+.toolbar-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px;padding-top:17px;border-top:1px solid #edf1ea}
+.toolbar-actions button{min-height:42px;padding:9px 13px}
+.toolbar-actions .primary{margin-left:auto}
+.sidebar h2{margin-bottom:8px}
+.pantry-guide{margin:16px 0 15px}
+.ing-row{min-height:58px;padding:13px 2px}
+.ing-check{min-height:28px}
+.qty-wrap{padding-left:8px}
+.qty{width:76px;min-height:42px}
+.base-card{background:#f8faf6}
+.day-top{background:#f8faf7}
+.day-plan-details>summary:hover{background:#f4f8f2}
+.content{gap:28px}
+@media(max-width:1040px){.settings-grid{grid-template-columns:minmax(0,1fr) minmax(130px,.6fr)}.settings-grid>label:last-child{grid-column:1/-1}.toolbar-actions .primary{margin-left:0}}
+@media(max-width:650px){.settings-grid{grid-template-columns:1fr 1fr;gap:14px}.settings-grid>label:first-child{grid-column:1/-1}.settings-grid>label:last-child{grid-column:1/-1}.toolbar{padding:16px}.toolbar-actions{gap:8px}.toolbar-actions button{flex:1 1 calc(50% - 8px)}.toolbar-actions .primary{flex-basis:100%;order:-1}.ing-row{min-height:60px}.pantry-guide{padding:13px 15px}}
+@media(max-width:390px){.settings-grid{grid-template-columns:1fr}.settings-grid>label:first-child,.settings-grid>label:last-child{grid-column:auto}.toolbar-actions button{flex-basis:100%}.qty-wrap{padding-left:0}}
+@media(max-width:650px){
+ .toolbar-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .toolbar-actions button{min-width:0;min-height:44px;font-size:.86rem;line-height:1.3;padding:10px 8px}
+ .toolbar-actions .primary{grid-column:1/-1;order:-1;margin-left:0}
+}
+@media(max-width:345px){.toolbar-actions{grid-template-columns:1fr}}
+@media print{.toolbar-actions,.settings-grid{display:none!important}}
+
+
+/* Stage 3: prepared batch ledger and actionable prep buttons */
+.prepared-section{margin-top:25px;padding-top:22px;border-top:1px solid var(--line,#e0e5de)}
+.prepared-section h3{font-size:1.08rem;line-height:1.3;margin:0 0 8px}
+.prepared-section .sub{margin-bottom:16px}
+.prepared-lots{display:grid;gap:10px}
+.lot-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;border:1px solid var(--line,#e0e5de);border-radius:12px;padding:14px 16px;background:var(--cream,#fff)}
+.lot-desc{flex:1 1 240px;line-height:1.6}
+.lot-desc strong{font-size:.95rem;margin-right:6px}
+.lot-actions,.prep-actions{display:flex;gap:8px;flex-wrap:wrap}
+.prep-actions{margin:12px 0 4px}
+.prep-actions button{white-space:normal;text-align:center}
+.lot-actions button:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:600px){.lot-row{padding:14px}.lot-actions{width:100%}.lot-actions button{flex:1}}
+
+/* Progressive enhancement: this warning is intentionally in the static HTML so
+   restricted iOS viewers never display empty controls without an explanation. */
+.runtime-notice{padding:17px 20px;margin-bottom:19px;border:1px solid #ceaa68;border-left:5px solid #9a702d;border-radius:14px;background:#fff5dd;color:#56401f;line-height:1.55}
+.runtime-notice strong{display:block;font-size:1.05rem;margin-bottom:6px}
+.runtime-notice p{margin:5px 0 0;font-size:.9rem}
+.runtime-notice .runtime-detail{font-size:.81rem;margin-top:8px}
+.runtime-notice[hidden],.running-note[hidden]{display:none!important}
+.running-note{color:var(--forest2);font-size:.75rem;margin:-6px 0 12px;letter-spacing:.01em}
+.preview-placeholder{grid-column:1/-1;padding:17px;border:1px dashed #cad2c7;border-radius:12px;color:var(--muted);font-size:.9rem;margin:0}
+#ingredients input[disabled]{cursor:not-allowed;opacity:.55}
+@media (max-width:590px){.runtime-notice{padding:14px 15px;margin-bottom:16px}.runtime-notice p{font-size:.86rem}}
+
+/* Mobile-safe action feedback and honest preview fallback. */
+[data-requires-engine]:disabled{opacity:.50;cursor:not-allowed}
+.pantry-feedback{font-size:.82rem;color:var(--forest2);background:var(--mint);border-radius:10px;padding:10px 12px;line-height:1.45;margin:8px 0 13px}
+.action-toast{position:fixed;z-index:1000;bottom:calc(16px + env(safe-area-inset-bottom, 0px));left:50%;transform:translateX(-50%);width:min(92vw,530px);padding:14px 17px;border-radius:14px;border:1px solid #45654e;background:#173f32;color:white;box-shadow:0 8px 28px rgba(0,0,0,.23);font-size:.9rem;line-height:1.45;pointer-events:none}
+.action-toast[hidden]{display:none!important}
+@media(max-width:590px){.action-toast{font-size:.86rem;padding:13px 15px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div><div class="eyebrow">The household remix kitchen</div><h1>Cook components.<br>Remix meals. Waste less.</h1><p class="tagline">A food-bank-friendly kitchen dashboard. Check off what you have, choose a prep day, and get a calmer week of dinners—with cooking steps, ingredient projections, and a plan for leftovers.</p></div>
+    <span class="hero-mark" aria-label="No backend required">✳ No account · No backend</span>
+  </header>
+  <nav class="jump-nav no-print" aria-label="Jump to a section"><a href="#pantryHeading">Food on hand</a><a href="#scheduleHeading">This week</a><a href="#baseHeading">Prep bases</a><a href="#mealsHeading">Recipes</a><a href="#remainHeading">Remaining food</a></nav>
+<div class="runtime-notice" id="runtimeNotice" role="alert">
+  <strong>This is a preview, not the running app.</strong>
+  <p>The interactive engine has not started. This viewer may block JavaScript or the app may have encountered a startup error. The checklist below is a read-only sample; no meal-planning buttons can work in this mode.</p>
+  <p class="runtime-detail">For reliable iPhone use, open a normal HTTPS-hosted copy of this file in Safari or Edge. Opening an HTML attachment or a downloaded file in a preview is not equivalent to visiting a working webpage.</p>
+  <p class="runtime-detail" id="startupDiagnostic">Status: waiting for the interactive engine.</p>
+</div>
+<div class="running-note" id="appHealth" role="status" aria-live="polite" hidden>✓ Interactive engine running · Pantry changes and cooking actions are active</div>
+<div class="toolbar no-print" aria-label="Meal planning settings and actions">
+    <div class="settings-grid">
+      <label>Week starts <input type="date" id="startDate" disabled data-requires-engine></label>
+      <label>People to feed <select id="portions" disabled data-requires-engine><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></label>
+      <label>Preferred batch-prep day <select id="batchDay" aria-label="Preferred batch prep day" disabled data-requires-engine><option value="-1">Choose a day (interactive browser needed)</option><option value="0">Day 1</option><option value="1">Day 2</option><option value="2">Day 3</option><option value="3">Day 4</option><option value="4">Day 5</option><option value="5">Day 6</option><option value="6">Day 7</option></select></label>
+    </div>
+    <div class="toolbar-actions">
+      <button id="exampleBtn" type="button" disabled data-requires-engine>Load example pantry</button>
+      <button id="clearBtn" type="button" disabled data-requires-engine>Clear checklist</button>
+      <button id="copyBtn" class="primary" type="button" disabled data-requires-engine>Copy weekly plan</button>
+      <button id="printBtn" type="button" disabled data-requires-engine>Print</button>
+      <button id="exportBtn" type="button" disabled data-requires-engine>Save backup</button>
+      <button id="importBtn" type="button" disabled data-requires-engine>Open backup</button>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+  </div>
+  <div class="layout">
+    <aside class="sidebar panel" aria-label="Ingredient inventory">
+      <div class="section-header" style="margin-bottom:9px"><div><h2 id="pantryHeading">01 · Food on hand</h2><div class="sub" style="margin:0">Tick foods you have. Edit the amount beside each selected item.</div></div></div>
+      <p class="pantry-guide">Start with the checkboxes. Quantities are optional estimates you can adjust later.</p><div class="pantry-count" id="pantryCount" aria-live="polite"></div><p id="pantryFeedback" class="pantry-feedback" aria-live="polite">Select the food you have to calculate meals.</p>
+      <div id="ingredients" class="ing-groups" aria-label="Food on hand checklist">
+<section class="ing-group" aria-label="Fresh &amp; chilled"><div class="cat-head">Fresh &amp; chilled <span>0/8</span></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Bread"><span class="ing-name">Bread</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Milk"><span class="ing-name">Milk</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Eggs"><span class="ing-name">Eggs</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Carrots"><span class="ing-name">Carrots</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Onions"><span class="ing-name">Onions</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Other fresh vegetables"><span class="ing-name">Other fresh vegetables</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Bananas"><span class="ing-name">Bananas</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Other fresh fruit"><span class="ing-name">Other fresh fruit</span></label></div>
+</section>
+<section class="ing-group" aria-label="Dry staples"><div class="cat-head">Dry staples <span>0/6</span></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Rice (dry)"><span class="ing-name">Rice (dry)</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Lentils (dry)"><span class="ing-name">Lentils (dry)</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Pasta (dry)"><span class="ing-name">Pasta (dry)</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Oats (dry)"><span class="ing-name">Oats (dry)</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Cereal"><span class="ing-name">Cereal</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Sugar"><span class="ing-name">Sugar</span></label></div>
+</section>
+<section class="ing-group" aria-label="Canned &amp; shelf-stable"><div class="cat-head">Canned &amp; shelf-stable <span>0/10</span></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Broth"><span class="ing-name">Broth</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Juice"><span class="ing-name">Juice</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Canned beans"><span class="ing-name">Canned beans</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Canned tuna"><span class="ing-name">Canned tuna</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Canned salmon"><span class="ing-name">Canned salmon</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Canned corn"><span class="ing-name">Canned corn</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Canned peas"><span class="ing-name">Canned peas</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Canned fruit"><span class="ing-name">Canned fruit</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Canned tomatoes"><span class="ing-name">Canned tomatoes</span></label></div>
+<div class="ing-row"><label class="ing-check"><input type="checkbox" disabled aria-label="I have Canned tomato sauce"><span class="ing-name">Canned tomato sauce</span></label></div>
+</section>
+</div>
+      <p class="pantry-footnote">Changes immediately update the meal plan. Unchecking an item removes it from available stock, but remembers your last amount in case you check it again.</p>
+      <p class="instructions">Quantities are estimates, especially for cans and mixed produce. Basic oil and seasonings are optional and are not included in the calculations.</p>
+    </aside>
+    <main class="content">
+      <div id="stats" class="stat-grid" aria-live="polite"></div>
+      <section class="panel" aria-labelledby="scheduleHeading"><div class="section-header"><div><h2 id="scheduleHeading">02 · Your week, one meal at a time</h2><p class="sub" style="margin:0">Each day shows a recommended dinner. Expand a day to see what to prepare before, cook now, and save for later.</p></div><button id="autoPlanBtn" type="button" class="primary no-print" disabled data-requires-engine>Rebuild dinner suggestions</button></div><div id="week" class="week"><p class="preview-placeholder">Your seven-day meal schedule appears here when the interactive planner loads. Try opening this file in a JavaScript-capable browser.</p></div><div id="scheduleStatus" class="status" role="status" aria-live="polite"></div></section>
+      <section class="panel" aria-labelledby="baseHeading"><div class="section-header"><div><h2 id="baseHeading">03 · Four reusable bases</h2><p class="sub" style="margin:0">Prepare versatile building blocks rather than seven finished dinners.</p></div></div><div class="base-grid" id="bases"><article class="base-card"><div class="base-num">Base 1</div><div class="base-title">Plain rice</div><div class="base-copy">Rice cooker · Add to bowls, chili and fried rice</div></article><article class="base-card"><div class="base-num">Base 2</div><div class="base-title">Tomato-lentil pot</div><div class="base-copy">Dutch oven · Use for chili, pasta, eggs and soup</div></article><article class="base-card"><div class="base-num">Base 3</div><div class="base-title">Roasted vegetables</div><div class="base-copy">Oven · Use in rice bowls, eggs and side dishes</div></article><article class="base-card"><div class="base-num">Base 4</div><div class="base-title">Pantry proteins</div><div class="base-copy">Keep beans, eggs and canned fish until needed</div></article></div>
+          <div class="prepared-section"><h3>Actually prepared & stored</h3><p class="sub">These are real portions marked as made today, not just suggested cooking. Refrigeration is allowed only when the intended dinners are within 3 days; otherwise choose freezer. Freeze promptly when needed, or record discarded portions without restoring raw ingredients.</p><div class="prepared-lots" id="preparedLots"></div></div></section>
+      <section class="panel" aria-labelledby="remainHeading"><div class="section-header"><div><h2 id="remainHeading">04 · What should remain</h2><p class="sub" style="margin:0">Estimated inventory after planned dinners — handy for choosing the next week's priorities.</p></div></div><div id="remaining" class="projection"></div><p class="instructions">This forecast subtracts ingredients still needed for planned dinners. When you record batch prep, its raw groceries are deducted immediately and the prepared portions are tracked separately. Cooking a meal uses those portions first, so ingredients are never charged twice. Snacks and drinks are not automatically counted.</p></section>
+      <section class="panel" aria-labelledby="mealsHeading"><div class="section-header"><div><h2 id="mealsHeading">05 · Meal possibilities</h2><p class="sub" style="margin:0">Fifteen straightforward meals built from the pantry checklist. Expand one for quantities and instructions.</p></div><label class="filterline no-print"><input id="readyOnly" type="checkbox" disabled data-requires-engine>Ready with current pantry only</label></div><div id="meals" class="meal-grid"><p class="preview-placeholder">Recipes and ingredient requirements become available in the interactive browser version.</p></div></section>
+      <section class="panel" aria-labelledby="safetyHeading"><h2 id="safetyHeading">Kitchen rules that save food</h2><div class="footer-notes"><div><strong>First in, first out.</strong> Prioritize fresh vegetables, milk, bread, bananas, and opened cans. Freeze bread and ripe peeled bananas before they spoil.</div><div><strong>Cool and store safely.</strong> Refrigerate perishables within two hours. Cool rice quickly (ideally within one hour); refrigerate leftovers in shallow containers and use within 3–4 days or freeze. Reheat leftovers to 165°F.</div><div><strong>Prep across days.</strong> A base made for meals more than 3–4 days away should be frozen promptly, not held in the fridge all week.</div><div><strong>Budget note.</strong> A “can” means an approximate can-equivalent quantity. If you open one, move unused food to a covered container, refrigerate promptly, and use soon or freeze.</div></div></section>
+    </main>
+  </div>
+</div>
+<script>
+// Startup diagnostics. If JS is blocked this does not run and the static notice stays visible.
+(function () {
+  function report(message) {
+    var notice=document.getElementById('runtimeNotice');
+    var detail=document.getElementById('startupDiagnostic');
+    if (notice) notice.hidden=false;
+    if (detail) detail.textContent='Startup error: '+String(message).slice(0,220);
+  }
+  window.addEventListener('error', function (event) { report(event.message||'JavaScript error'); });
+  window.addEventListener('unhandledrejection',function (event) { report(event.reason && event.reason.message || event.reason || 'Unexpected startup error'); });
+  window.remixReportError=report;
+}());
+</script>
+<script>
+(() => {
+'use strict';
+const LS_KEY='remix-kitchen-v4';
+const PREVIOUS_KEY='remix-kitchen-v3';
+const LEGACY_KEY='remix-kitchen-v1';
+const ITEMS=[
+  {id:'bread',name:'Bread',unit:'slices',cat:'Fresh & chilled',step:1},
+  {id:'milk',name:'Milk',unit:'cups',cat:'Fresh & chilled',step:.5},
+  {id:'eggs',name:'Eggs',unit:'eggs',cat:'Fresh & chilled',step:1},
+  {id:'carrots',name:'Carrots',unit:'whole',cat:'Fresh & chilled',step:1},
+  {id:'onions',name:'Onions',unit:'whole',cat:'Fresh & chilled',step:1},
+  {id:'otherVeg',name:'Other fresh vegetables',unit:'cups',cat:'Fresh & chilled',step:.5},
+  {id:'bananas',name:'Bananas',unit:'each',cat:'Fresh & chilled',step:1},
+  {id:'otherFruit',name:'Other fresh fruit',unit:'pieces',cat:'Fresh & chilled',step:1},
+  {id:'rice',name:'Rice (dry)',unit:'cups',cat:'Dry staples',step:.5},
+  {id:'lentils',name:'Lentils (dry)',unit:'cups',cat:'Dry staples',step:.5},
+  {id:'pasta',name:'Pasta (dry)',unit:'cups',cat:'Dry staples',step:.5},
+  {id:'oats',name:'Oats (dry)',unit:'cups',cat:'Dry staples',step:.5},
+  {id:'cereal',name:'Cereal',unit:'cups',cat:'Dry staples',step:.5},
+  {id:'sugar',name:'Sugar',unit:'tbsp',cat:'Dry staples',step:1},
+  {id:'broth',name:'Broth',unit:'cups',cat:'Canned & shelf-stable',step:.5},
+  {id:'juice',name:'Juice',unit:'cups',cat:'Canned & shelf-stable',step:.5},
+  {id:'beans',name:'Canned beans',unit:'cans',cat:'Canned & shelf-stable',step:1},
+  {id:'tuna',name:'Canned tuna',unit:'cans',cat:'Canned & shelf-stable',step:1},
+  {id:'salmon',name:'Canned salmon',unit:'cans',cat:'Canned & shelf-stable',step:1},
+  {id:'corn',name:'Canned corn',unit:'cans',cat:'Canned & shelf-stable',step:1},
+  {id:'peas',name:'Canned peas',unit:'cans',cat:'Canned & shelf-stable',step:1},
+  {id:'cannedFruit',name:'Canned fruit',unit:'cans',cat:'Canned & shelf-stable',step:1},
+  {id:'tomatoes',name:'Canned tomatoes',unit:'cans',cat:'Canned & shelf-stable',step:1},
+  {id:'sauce',name:'Canned tomato sauce',unit:'cans',cat:'Canned & shelf-stable',step:1}
+];
+const DEFAULT_AMOUNT={bread:4,milk:2,eggs:4,carrots:2,onions:1,otherVeg:1,bananas:2,otherFruit:2,rice:1,lentils:1,pasta:1,oats:1,cereal:2,sugar:2,broth:2,juice:2,beans:1,tuna:1,salmon:1,corn:1,peas:1,cannedFruit:1,tomatoes:1,sauce:1};
+const EXAMPLE={bread:22,milk:10,eggs:24,carrots:10,onions:6,otherVeg:5,bananas:7,otherFruit:4,rice:7,lentils:4,pasta:4,oats:5,cereal:7,sugar:6,broth:9,juice:6,beans:6,tuna:3,salmon:2,corn:3,peas:4,cannedFruit:3,tomatoes:6,sauce:4};
+const BASES={
+  rice:{name:'Plain rice',label:'Rice cooker',emoji:'🍚',desc:'Cook plain; serve in chili bowls, fried rice and quick dinners.',raw:{rice:.19},time:'20–30 min'},
+  tomato:{name:'Tomato-lentil pot',label:'Dutch oven / crock pot',emoji:'🍅',desc:'A gently seasoned pot for chili, pasta, skillet eggs and soup.',raw:{lentils:.16,tomatoBlend:.26,broth:.31,vegMix:.20,onions:.13},time:'35–45 min'},
+  roast:{name:'Roasted vegetables',label:'Oven',emoji:'🥕',desc:'Carrots, onions and other veg become toppings and fillings.',raw:{vegMix:.8,onions:.2},time:'25–35 min'},
+  protein:{name:'Pantry proteins',label:'No batch cooking',emoji:'🥚',desc:'Keep eggs, beans and fish unopened until the meal needs them.',raw:{},time:'Open as needed'}
+};
+const RECIPES=[
+ {id:'chili',name:'Pantry chili over rice',minutes:15,score:20,bases:{tomato:.85,rice:.75},direct:{beans:.20,corn:.12},method:'Warm tomato-lentil base with drained beans and corn; spoon over rice. Add any spices you like.',note:'Hearty and easy to scale.'},
+ {id:'bakedPasta',name:'Hearty baked pasta',minutes:30,score:19,bases:{tomato:.75},direct:{pasta:.22,peas:.13,bread:.22},method:'Cook pasta; toss with tomato-lentil base and peas. Crumble a little bread on top and bake at 375°F until piping hot and browned, about 20–25 minutes.',note:'Bread becomes a crispy topping.'},
+ {id:'skilletEggs',name:'Skillet eggs & toast',minutes:15,score:17,bases:{tomato:.70},direct:{eggs:1,bread:1},method:'Simmer tomato-lentil base in a skillet; make wells and crack in eggs. Cover until whites are set. Serve with toast.',note:'A shakshuka-style dinner.'},
+ {id:'friedRice',name:'Egg & vegetable fried rice',minutes:15,score:19,bases:{rice:.85},direct:{eggs:.8,peas:.12,corn:.10,vegMix:.12},method:'Scramble eggs; sauté chopped vegetables and add cold, safely stored rice, corn and peas. Toss until piping hot. Season to taste.',note:'Best with rice cooked and chilled in advance.'},
+ {id:'fishCakes',name:'Crispy tuna or salmon cakes',minutes:25,score:18,bases:{roast:.55,rice:.55},direct:{fish:.26,eggs:.26,bread:.42},method:'Mix drained fish with egg and fine bread crumbs. Form small patties and pan-cook until browned and cooked through; serve with rice and roast veg.',note:'Use either type of canned fish.'},
+ {id:'rescueSoup',name:'Leftover-rescue soup',minutes:15,score:17,bases:{tomato:.7,roast:.35},direct:{broth:.30,beans:.14},method:'Thin tomato-lentil base with broth; add roast veg and beans. Simmer until everything is hot. Add more broth for a lighter soup.',note:'Designed to finish odds and ends.'},
+ {id:'breadBake',name:'Savory bread & egg bake',minutes:45,score:16,bases:{roast:.40},direct:{bread:1.3,milk:.28,eggs:.85},method:'Cube bread. Whisk eggs with milk, fold in roast veg and seasonings, and pour into a greased dish. Bake at 350°F until the center reaches 160°F, about 35–45 minutes.',note:'Uses bread and milk before they turn.'},
+ {id:'bakedOats',name:'Banana baked oatmeal',minutes:40,score:13,bases:{},direct:{oats:.48,bananas:.48,milk:.36,eggs:.25},method:'Mix oats, mashed banana, milk, and eggs. Sweeten with optional sugar. Bake at 350°F for about 30–40 minutes until set.',note:'Breakfast-for-dinner or make-ahead breakfast.'},
+ {id:'riceBowls',name:'Build-your-own rice bowls',minutes:15,score:18,bases:{rice:.85,roast:.60},direct:{beans:.22,eggs:.35},method:'Heat rice, beans and roast veg, then top with freshly cooked eggs. Let everyone assemble their own bowl.',note:'Great for different preferences.'},
+ {id:'fishPasta',name:'Tomato fish pasta',minutes:20,score:17,bases:{},direct:{pasta:.22,fish:.25,tomatoBlend:.20,peas:.14},method:'Cook pasta. Simmer tomato sauce or canned tomatoes with peas and drained tuna or salmon; combine and heat through.',note:'No bases need to be cooked first.'},
+ {id:'lentilSoup',name:'Lentil noodle soup',minutes:15,score:16,bases:{tomato:.8},direct:{broth:.3,pasta:.12},method:'Thin tomato-lentil base with broth; simmer small pasta shapes in the soup until tender, adding liquid as needed.',note:'A fast stovetop supper.'},
+ {id:'fruitOats',name:'Warm oats & canned fruit',minutes:12,score:12,bases:{},direct:{oats:.48,milk:.34,cannedFruit:.20},method:'Simmer oats in milk, adding water if needed. Spoon on drained canned fruit and a little sugar if desired.',note:'Simple pantry breakfast-for-dinner.'},
+ {id:'eggsToast',name:'Eggs, toast & fresh fruit',minutes:12,score:13,bases:{},direct:{eggs:1.3,bread:1.2,otherFruit:.30},method:'Cook eggs to your liking, toast bread and slice available fresh fruit.',note:'A no-fuss busy-night option.'},
+ {id:'beansToast',name:'Tomato beans on toast',minutes:12,score:15,bases:{},direct:{beans:.27,bread:1.3,tomatoBlend:.20},method:'Simmer beans in tomato sauce or canned tomatoes until thick and hot. Spoon over toast.',note:'Cheap, satisfying and very fast.'},
+ {id:'cerealFruit',name:'Cereal, fruit & juice',minutes:5,score:9,bases:{},direct:{cereal:1.05,milk:.62,bananas:.35,juice:.30},method:'Serve cereal with milk, sliced banana and a small glass of juice.',note:'An emergency no-cook supper.'}
+];
+const CATS=['Fresh & chilled','Dry staples','Canned & shelf-stable'];
+const MODES=[['prep','Batch-prep'],['normal','Normal'],['busy','Busy / quick'],['off','No meal']];
+const GROUPS={tomatoBlend:['tomatoes','sauce'],vegMix:['otherVeg','carrots'],fish:['tuna','salmon']};
+const TITLES={tomatoBlend:'canned tomatoes / tomato sauce',vegMix:'carrots / other fresh veg',fish:'canned tuna / salmon'};
+const fmt=n=>{n=Number(n)||0; if(Math.abs(n)<.000001)return '0'; const precision=Math.abs(n)<.1?4:Math.abs(n)<1?3:2;return String(Number(n.toFixed(precision)))};
+const round=n=>Math.round((Number(n)||0)*1000000)/1000000;
+const e=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nameOf=k=>TITLES[k]||(ITEMS.find(x=>x.id===k)||{}).name||k;
+const GROUP_UNITS={tomatoBlend:'can-equivalents',vegMix:'carrot/veg units',fish:'cans'};
+const unitOf=k=>GROUP_UNITS[k]||(ITEMS.find(x=>x.id===k)||{}).unit||'units';
+const copy=x=>({...x});
+function dateNextMonday(){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+((8-d.getDay())%7||7));return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function saneInventory(input){const v={};ITEMS.forEach(item=>{const n=Number(input?.[item.id]);v[item.id]=Number.isFinite(n)?Math.max(0,Math.min(10000,n)):0});return v;}
+function dateValid(s){if(typeof s!== 'string'|| !/^\d{4}-\d{2}-\d{2}$/.test(s))return false; const d=new Date(s+'T12:00:00');return !Number.isNaN(d.valueOf())&&`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`===s;}
+function localToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function daysApart(a,b){return Math.round((Date.parse(b+'T12:00:00Z')-Date.parse(a+'T12:00:00Z'))/86400000);}
+function cleanSpent(input){const spent={};for(const it of ITEMS){const v=Number(input?.[it.id]);if(Number.isFinite(v)&&v>0&&v<10000)spent[it.id]=round(v);}return spent;}
+function cleanPrepared(raw){if(!Array.isArray(raw))return [];const seen=new Set(),valid=[];for(const l of raw.slice(0,200)){
+ if(!l||!['rice','tomato','roast'].includes(l.base)||typeof l.id!=='string'||!/^[a-zA-Z0-9_-]{1,100}$/.test(l.id)||seen.has(l.id)||!dateValid(l.madeAt))continue;
+ const qty=Number(l.qty),remaining=Number(l.remaining);const discarded=Number(l.discarded||0);if(!Number.isFinite(qty)||qty<=0||qty>10000||!Number.isFinite(remaining)||remaining<0||remaining>qty+0.000001||!Number.isFinite(discarded)||discarded<0||discarded+remaining>qty+0.000001)continue;
+ seen.add(l.id);valid.push({id:l.id,base:l.base,qty:round(qty),remaining:round(remaining),madeAt:l.madeAt,storage:l.storage==='frozen'?'frozen':'fridge',discarded:round(discarded),spentRaw:cleanSpent(l.spentRaw)});
+ }return valid;}
+function cleanDone(raw){const output={};if(!raw||typeof raw!=='object'||Array.isArray(raw))return output;
+ for(const [date,rec] of Object.entries(raw)){if(!dateValid(date)||!rec||!RECIPES.some(r=>r.id===rec.recipeId))continue;
+ const usedBases=Array.isArray(rec.usedBases)?rec.usedBases.filter(x=>x&&typeof x.id==='string'&&/^[a-zA-Z0-9_-]{1,100}$/.test(x.id)&&['rice','tomato','roast'].includes(x.base)&&Number.isFinite(Number(x.qty))&&Number(x.qty)>0&&Number(x.qty)<10000).map(x=>({id:x.id,base:x.base,qty:round(Number(x.qty))})):[];
+ output[date]={recipeId:rec.recipeId,eaten:!!rec.eaten,cookedAt:dateValid(rec.cookedAt)?rec.cookedAt:date,servings:Math.min(8,Math.max(1,Number(rec.servings)||4)),spent:cleanSpent(rec.spent),usedBases};
+ }return output;}
+function cleanState(old={}){if(!old||typeof old!=='object'||Array.isArray(old))old={};
+ const inv=saneInventory(old.inventory||{}),stashed=saneInventory(old.stashed||old.inventory||{});
+ return {inventory:inv,stashed,startDate:dateValid(old.startDate)?old.startDate:localToday(),portions:Math.min(8,Math.max(1,Number(old.portions)||4)),modes:Array.from({length:7},(_,i)=>MODES.some(m=>m[0]===old.modes?.[i])?old.modes[i]:['prep','normal','busy','normal','busy','normal','normal'][i]),pins:Array.from({length:7},(_,i)=>RECIPES.some(r=>r.id===old.pins?.[i])?old.pins[i]:'auto'),done:cleanDone(old.done),prepared:cleanPrepared(old.prepared),sequence:Number.isInteger(old.sequence)&&old.sequence>=0&&old.sequence<100000000?old.sequence:0};}
+function load(){let old={};try{old=JSON.parse(localStorage.getItem(LS_KEY)||localStorage.getItem(PREVIOUS_KEY)||localStorage.getItem(LEGACY_KEY)||'{}')||{}}catch(err){}return cleanState(old);}
+let state=load();
+let lastPlan=null;
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify(state))}catch(err){showStatus('Browser saving is unavailable. Please save a JSON backup.');}}
+function availableLot(lot,forDate){if(lot.remaining<=0.000001)return false;const elapsed=daysApart(lot.madeAt,forDate);if(elapsed<0)return false;return lot.storage==='frozen'||elapsed<=3;}
+function copyResources(resources){return {raw:copy(resources.raw),lots:resources.lots.map(l=>({...l}))};}
+function useIngredient(remaining,key,need,spent,gaps){const ids=GROUPS[key]||[key];const original=need;
+ for(const id of ids){const take=Math.min(need,Math.max(0,remaining[id]||0));if(take>0){remaining[id]=round(remaining[id]-take);spent[id]=round((spent[id]||0)+take);need=round(need-take);}if(need<0.000001)break;}
+ if(need>0.000001)gaps[key]=round((gaps[key]||0)+need);return original-need;
+}
+function evaluateBase(resources,base,qty,forDate){const trial=copyResources(resources),spent={},gaps={};
+ for(const [id,perUnit] of Object.entries(BASES[base].raw))useIngredient(trial.raw,id,round(perUnit*qty),spent,gaps);
+ return {ok:Object.keys(gaps).length===0,resources:trial,spent,gaps};}
+function evaluateMeal(resources,recipe,servings,forDate){const trial=copyResources(resources),spent={},gaps={},usedBases=[],baseFromRaw={},needs=baseDemand(recipe);
+ // Take prepared portions first; raw items only cover any remaining required base portions.
+ for(const [base,perPerson] of Object.entries(recipe.bases)){
+  let need=round(perPerson*servings);
+  const lots=trial.lots.filter(l=>l.base===base&&availableLot(l,forDate)).sort((a,b)=>a.madeAt.localeCompare(b.madeAt));
+  for(const lot of lots){const take=Math.min(need,lot.remaining);if(take>0){lot.remaining=round(lot.remaining-take);need=round(need-take);usedBases.push({id:lot.id,base,qty:round(take)});}if(need<0.000001)break;}
+  if(need>0.000001){baseFromRaw[base]=need;for(const [key,perUnit] of Object.entries(BASES[base].raw))useIngredient(trial.raw,key,round(perUnit*need),spent,gaps);}
+ }
+ for(const [key,perPerson] of Object.entries(recipe.direct))useIngredient(trial.raw,key,round(perPerson*servings),spent,gaps);
+ return {ok:Object.keys(gaps).length===0,resources:trial,spent,gaps,needs,usedBases,baseFromRaw};
+}
+function resourcesNow(){return {raw:copy(state.inventory),lots:state.prepared.map(l=>({...l}))};}
+
+function baseDemand(recipe){const r={};for(const [base,v] of Object.entries(recipe.bases)){for(const [key,amount] of Object.entries(BASES[base].raw))r[key]=(r[key]||0)+v*amount;}for(const [key,amount] of Object.entries(recipe.direct))r[key]=(r[key]||0)+amount;return r;}
+function check(stock,recipe,servings){const test=evaluateMeal({raw:copy(stock),lots:state.prepared.map(l=>({...l}))},recipe,servings,localToday());return {...test,remaining:test.resources.raw};}
+function grade(recipe,info,day,history){let s=recipe.score;const mode=state.modes[day];const recent=history.slice(-3);s-=recent.filter(x=>x===recipe.id).length*21;s-=history.filter(x=>x===recipe.id).length*6;
+  if(mode==='busy')s-=Math.max(0,recipe.minutes-17)*.63;
+  if(mode==='prep')s+=Object.keys(recipe.bases).length*3.4;
+  if(mode==='normal'&&recipe.minutes>35)s-=3;
+  if(day<=3){s+=(info.spent.bread||0)*.18+(info.spent.milk||0)*.17+(info.spent.otherVeg||0)*.30+(info.spent.bananas||0)*.26;}
+  const usedGroups=Object.keys(recipe.bases);const prev=RECIPES.find(r=>r.id===history[history.length-1]);if(prev&&usedGroups.length&&usedGroups.some(x=>Object.keys(prev.bases).includes(x)))s-=2;
+  if(recipe.id==='cerealFruit')s-=2;
+  return s;
+}
+function choosePlan(){
+ let pool=resourcesNow();const days=Array.from({length:7},()=>null);let history=[];
+ // Completed meals are already reflected in actual raw/prepared stock.
+ for(let d=0;d<7;d++){const mode=state.modes[d],rec=state.done[isoForDay(d)];
+  if(rec){const r=RECIPES.find(x=>x.id===rec.recipeId);if(r){days[d]={mode,recipe:r,done:rec,spent:{},gaps:{}};continue;}}
+  if(mode==='off')days[d]={mode,recipe:null,off:true,spent:{},gaps:{}};
+ }
+ // Reserve chosen meals first so automatic picks cannot consume their ingredients.
+ for(let d=0;d<7;d++){
+  if(days[d]||state.pins[d]==='auto')continue;
+  const recipe=RECIPES.find(r=>r.id===state.pins[d]);if(!recipe)continue;
+  const test=evaluateMeal(pool,recipe,state.portions,isoForDay(d));
+  if(test.ok){pool=test.resources;days[d]={mode:state.modes[d],recipe,spent:test.spent,gaps:{},usedBases:test.usedBases,baseFromRaw:test.baseFromRaw};}
+  else days[d]={mode:state.modes[d],recipe:null,suggested:recipe,off:false,spent:{},gaps:test.gaps,pinned:true};
+ }
+ // Fill remaining slots using the inventory left after reserving pinned dinners.
+ for(let d=0;d<7;d++){
+  if(days[d]){if(days[d].recipe)history.push(days[d].recipe.id);continue;}
+  let winner=null,evalInfo=null,max=-Infinity;
+  for(const r of RECIPES){const test=evaluateMeal(pool,r,state.portions,isoForDay(d));if(!test.ok)continue;
+   const score=grade(r,test,d,history);if(score>max){max=score;winner=r;evalInfo=test;}}
+  if(winner){pool=evalInfo.resources;history.push(winner.id);days[d]={mode:state.modes[d],recipe:winner,spent:evalInfo.spent,gaps:{},usedBases:evalInfo.usedBases,baseFromRaw:evalInfo.baseFromRaw};}
+  else{let candidate=null,gaps={},least=Infinity;
+   for(const r of RECIPES){const test=evaluateMeal(pool,r,state.portions,isoForDay(d));const cost=Object.entries(test.gaps).reduce((sum,[k,v])=>sum+v/Math.max(.4,(test.needs[k]||.1)*state.portions),0);if(cost<least){least=cost;candidate=r;gaps=test.gaps;}}
+   days[d]={mode:state.modes[d],recipe:null,suggested:candidate,off:false,spent:{},gaps,pinned:false};
+  }
+ }
+ const prep=Array.from({length:7},()=>({})),uses=Array.from({length:7},()=>({})),totalBases={rice:0,tomato:0,roast:0};
+ days.forEach((day,d)=>{if(!day.recipe||day.done)return;for(const [base,perPerson] of Object.entries(day.recipe.bases)){
+  const qty=round(perPerson*state.portions);totalBases[base]=round(totalBases[base]+qty);
+  const toPrep=round(day.baseFromRaw?.[base]||0);
+  let cookDay=d;
+  for(let j=d;j>=Math.max(0,d-2);j--){if(state.modes[j]==='prep'&&!days[j].done&&days[j].recipe){cookDay=j;break;}}
+  if(cookDay===d&&state.modes[d]==='busy')for(let j=d-1;j>=Math.max(0,d-2);j--)if(!days[j].done&&(state.modes[j]==='normal'||state.modes[j]==='prep')){cookDay=j;break;}
+  if(toPrep>0.000001){if(!prep[cookDay][base])prep[cookDay][base]={qty:0,targets:[]};prep[cookDay][base].qty=round(prep[cookDay][base].qty+toPrep);prep[cookDay][base].targets.push(d);}
+  uses[d][base]={qty,cookDay,prepared:round(qty-toPrep),toPrep};
+ }});
+ return {days,prep,uses,totalBases,remaining:pool.raw,remainingLots:pool.lots,planned:days.filter(d=>d.recipe).length,completed:days.filter(d=>d.done).length,off:days.filter(d=>d.off).length,unfilled:days.filter(d=>!d.recipe&&!d.off).length};
+}
+function dayDate(i){const [y,m,d]=state.startDate.split('-').map(Number);return new Date(y,m-1,d+i,12);}
+function isoForDay(i){const d=dayDate(i);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function labelDay(i){return dayDate(i).toLocaleDateString(undefined,{weekday:'short'});}
+function labelDate(i){return dayDate(i).toLocaleDateString(undefined,{month:'short',day:'numeric'});}
+function listGaps(gaps){return Object.entries(gaps).map(([k,v])=>`${fmt(v)} ${unitOf(k)==='units'?'':unitOf(k)+' '} ${nameOf(k)}`.trim());}
+function recipeTag(recipe){return Object.keys(recipe.bases).map(b=>BASES[b].name).join(' + ')||'No cooked base needed';}
+function prepText(base,qty){switch(base){
+ case 'rice':return `Rice cooker: cook about <strong>${fmt(qty*.19)} cups dry rice</strong> (roughly ${fmt(qty)} meal portions). Spread into shallow containers to cool quickly.`;
+ case 'tomato':return `Dutch oven: simmer about <strong>${fmt(qty*.16)} cups lentils, ${fmt(qty*.26)} cans tomatoes/sauce, and ${fmt(qty*.31)} cups broth</strong> with chopped onion and fresh vegetables until tender (about 35–45 minutes).`;
+ case 'roast':return `Oven: roast about <strong>${fmt(qty*.8)} carrot/veg units and ${fmt(qty*.2)} onions</strong> at 425°F for 25–35 minutes, until browned and tender. A carrot/veg unit means one carrot or about one cup of chopped fresh vegetables.`;
+ default:return '';
+}}
+function renderIngredients(){
+ const root=document.getElementById('ingredients');
+ const selected=ITEMS.filter(item=>state.inventory[item.id]>0).length;
+ document.getElementById('pantryCount').textContent=`${selected} of ${ITEMS.length} foods selected`;
+ root.innerHTML=CATS.map(cat=>{
+  const items=ITEMS.filter(item=>item.cat===cat);
+  const used=items.filter(item=>state.inventory[item.id]>0).length;
+  return `<section class="ing-group" aria-label="${e(cat)}"><div class="cat-head">${e(cat)} <span>${used}/${items.length}</span></div>`+
+   items.map(item=>{
+    const amount=state.inventory[item.id]||0,active=amount>0;
+    return `<div class="ing-row ${active?'active':''}"><label class="ing-check"><input type="checkbox" data-have="${item.id}" ${active?'checked':''} aria-label="I have ${e(item.name)}"><span class="ing-name">${e(item.name)}</span></label>${active?`<span class="qty-wrap"><input class="qty" aria-label="${e(item.name)} amount" type="number" min="0" max="10000" step="any" inputmode="decimal" data-item="${item.id}" value="${amount}"><span class="unit">${e(item.unit)}</span></span>`:''}</div>`;
+   }).join('')+'</section>';
+ }).join('');
+}
+function renderStats(plan){const active=7-plan.off;const total=plan.days.reduce((s,d)=>s+(d.done?(d.done.servings||0):(d.recipe?state.portions:0)),0);const opts=[['Dinner slots filled',`${plan.planned}/${active||0}`],['Dinners cooked',String(plan.completed)],['Servings across week',String(total)],['Inventory gaps',String(plan.unfilled)]];document.getElementById('stats').innerHTML=opts.map(([label,num])=>`<div class="stat"><div class="stat-number">${e(num)}</div><div class="stat-label">${e(label)}</div></div>`).join('');}
+function renderBases(plan){const cols=Object.entries(BASES).map(([id,b],i)=>{
+ const ready=state.prepared.filter(l=>l.base===id).reduce((n,l)=>n+l.remaining,0);
+ const number=id==='protein'?'Open when needed':`${fmt(plan.totalBases[id])} portions needed this week`;
+ const extra=id==='protein'?'Beans, eggs and canned fish stay in your raw pantry until used.':`${fmt(ready)} portions actually prepared · ${b.label} · ${b.time}`;
+ return `<article class="base-card"><div class="base-num">Base ${i+1} · ${b.emoji}</div><div class="base-title">${e(b.name)}</div><div class="base-qty">${e(number)}</div><div class="base-copy">${e(b.desc)}</div><div class="base-copy" style="margin-top:9px;font-weight:680">${e(extra)}</div></article>`;});document.getElementById('bases').innerHTML=cols.join('');
+ renderPrepared();}
+function renderPrepared(){const el=document.getElementById('preparedLots');if(!el)return;
+ if(!state.prepared.length){el.innerHTML='<p class="empty">No batches recorded yet. Expand a day in the weekly planner and mark a suggested base as prepared. Raw ingredients will be deducted at that point.</p>';return;}
+ el.innerHTML=state.prepared.slice().sort((a,b)=>b.madeAt.localeCompare(a.madeAt)).map(l=>{
+  const discarded=round(l.discarded||0),used=round(l.qty-l.remaining-discarded),elapsed=daysApart(l.madeAt,localToday());const expired=l.storage==='fridge'&&elapsed>3;
+  const status=expired?'Fridge window exceeded':l.storage==='frozen'?'Frozen':'Refrigerated';
+  const disabled=used>.000001||discarded>.000001||expired;
+  return `<div class="lot-row"><div class="lot-desc"><strong>${e(BASES[l.base].name)}</strong> <span class="pill ${expired?'red':''}">${e(status)}</span><div class="hint">Prepared ${e(l.madeAt)} · ${fmt(l.remaining)} of ${fmt(l.qty)} portions remaining${used>0?` · ${fmt(used)} used`:''}${discarded>0?` · ${fmt(discarded)} discarded`:''}</div></div><div class="lot-actions no-print">${l.storage==='fridge'&&!expired?`<button class="smallbtn" type="button" data-freeze="${e(l.id)}">Freeze</button>`:''}${l.remaining>.000001?`<button class="smallbtn ghost" type="button" data-discard="${e(l.id)}" title="Record remaining prepared food as discarded; does not restore raw ingredients">Discard remaining</button>`:''}<button class="smallbtn ghost" type="button" data-unprep="${e(l.id)}" ${disabled?'disabled':''} title="${disabled?'Undo available only before any batch portions are used and within safe fridge storage':'Undo an accidental prep entry and restore the tracked ingredients'}">Undo prep</button></div></div>`;
+ }).join('');
+}
+function fmtMissing(gaps){const arr=listGaps(gaps);return arr.length?arr.map(e).join(' · '):'No ingredients available for another complete meal.';}
+function renderWeek(plan){
+ const root=document.getElementById('week');
+ root.innerHTML=plan.days.map((day,d)=>{
+  const prep=plan.prep[d],uses=plan.uses[d],pinned=state.pins[d];
+  const modeOptions=MODES.map(([value,label])=>`<option value="${value}" ${state.modes[d]===value?'selected':''}>${e(label)}</option>`).join('');
+  const pins=`<option value="auto" ${pinned==='auto'?'selected':''}>Auto-pick a dinner</option>`+RECIPES.map(r=>`<option value="${r.id}" ${pinned===r.id?'selected':''}>${e(r.name)}</option>`).join('');
+  const controls=day.done?'<span class="pill complete">✓ Cooked</span>':`<div class="day-controls no-print"><label class="day-control-label" for="mode${d}">Day type<select id="mode${d}" data-mode="${d}">${modeOptions}</select></label><label class="day-control-label" for="pin${d}">Meal choice<select id="pin${d}" data-pin="${d}">${pins}</select></label></div>`;
+  const top=`<div class="day-top"><div class="day-heading"><div class="day-title">${labelDay(d)}</div><div class="day-date">${labelDate(d)}</div></div>${controls}</div>`;
+  if(day.done){
+   const r=day.recipe,finished=day.done,eaten=finished.eaten;
+   const used=Object.entries(finished.spent||{}).map(([id,n])=>`${fmt(n)} ${unitOf(id)} ${nameOf(id).toLowerCase()}`).join(' · ')+(finished.usedBases?.length?' · Prepared bases: '+finished.usedBases.map(x=>`${fmt(x.qty)} ${BASES[x.base].name}`).join(', '):'');
+   return `<article class="day done">${top}<div class="day-body"><div class="pills"><span class="pill complete">Ingredients allocated once</span><span class="pill ${eaten?'complete':'gold'}">${eaten?'Eaten':'Ready to eat'}</span></div><div class="dish-name">${e(r.name)}</div><p class="dish-detail">Marked cooked ${e(finished.cookedAt||isoForDay(d))} for ${finished.servings} ${finished.servings===1?'person':'people'}.${finished.cookedAt&&finished.cookedAt<isoForDay(d)?' Store safely for the planned serving date; refrigerate briefly or freeze for later.':''} This finished meal is not deducted again in the remaining-week projection. Previously prepared base portions were used before raw ingredients.</p><details class="day-plan-details"><summary>See cooked recipe and ingredients</summary><div class="steps-wrap"><div class="step"><div class="step-label">Recipe</div><div class="step-body">${e(r.method)}</div></div><div class="step"><div class="step-label">Used</div><div class="step-body">${e(used||'No ingredient quantities recorded.')}</div></div></div></details><div class="day-footer no-print">${eaten?'<span class="pill complete">Meal eaten ✓</span>':`<button data-eaten="${d}" class="primary" type="button">✓ Mark eaten</button>`}<button data-undo="${d}" class="smallbtn ghost" type="button" title="Reverses this cooking record and restores the ingredient amounts">Undo cooked</button></div></div></article>`;
+  }
+  if(day.off)return `<article class="day off">${top}<div class="day-body"><div class="dish-name">No dinner planned</div><p class="dish-detail">No dinner ingredients allocated. Meals made from leftovers on off days are not automatically counted.</p></div></article>`;
+  const activePrep=Object.entries(prep).map(([b,obj])=>{const dates=obj.targets.map(isoForDay);const inPast=dates.some(date=>daysApart(localToday(),date)<0);const needsFreezer=dates.some(date=>daysApart(localToday(),date)>3);return `<li><strong>${e(BASES[b].name)}:</strong> ${prepText(b,obj.qty)} <span class="hint">For ${obj.targets.map(x=>labelDay(x)).join(', ')}. This is a suggested amount, not yet cooked.</span><div class="prep-actions no-print"><button type="button" class="smallbtn" data-prep="${d}:${b}" data-storage="fridge" ${inPast||needsFreezer?'disabled title="Fridge batch cannot safely cover all target dinners from today; choose frozen for a later meal"':''}>✓ Prepared · fridge</button><button type="button" class="smallbtn" data-prep="${d}:${b}" data-storage="frozen" ${inPast?'disabled title="Cannot record prep today for a past scheduled dinner"':''}>✓ Prepared · freezer</button></div>${needsFreezer?'<div class="hint">Freeze now: one or more dinners are more than 3 days away.</div>':''}</li>`;});
+  const activeUse=Object.entries(uses).filter(([b,x])=>x.cookDay<d&&x.toPrep>0.000001).map(([b,x])=>`<li>Plan to use <strong>${fmt(x.toPrep)} portions of ${e(BASES[b].name.toLowerCase())}</strong> prepared on ${labelDay(x.cookDay)}. If that batch is not made, cook the base before serving. Reheat thoroughly.</li>`);
+  const upstream=[...activePrep,...activeUse];
+  let downstream='Cool cooked food promptly in shallow containers. Refrigerate and use within 3–4 days or freeze promptly. Prepared base portions are not counted until you press a Prepared button.';
+  const later=Object.entries(prep).flatMap(([b,obj])=>obj.targets.filter(target=>target>d).map(target=>({b,target})));
+  if(later.length)downstream=`If you prepare extra bases, label them for ${later.map(x=>`${labelDay(x.target)} (${BASES[x.b].name.toLowerCase()})`).join(', ')}. Chill quickly; freeze portions not needed within 3–4 days. Record the batch with a Prepared button so ingredients are not deducted twice.`;
+  const upstreamBody=upstream.length?`<ul>${upstream.join('')}</ul>`:'No batch components required in advance. Take the listed pantry ingredients out when you start cooking.';
+  if(!day.recipe){
+   const prefix=day.pinned?'Pinned dinner:':'Closest option:';
+   return `<article class="day unplanned">${top}<div class="day-body"><span class="pill red">Not enough ingredients</span><div class="dish-name">Dinner slot needs attention</div><p class="dish-detail">${prefix} ${e(day.suggested?.name||'No feasible meal')}. Missing: ${fmtMissing(day.gaps)}.</p><details class="day-plan-details"><summary>See prep guidance</summary><div class="steps-wrap"><div class="step"><div class="step-label">Before</div><div class="step-body">${upstreamBody}</div></div><div class="step"><div class="step-label">Try</div><div class="step-body">Check your checklist or reduce the serving count; switch to “No meal” if the household has another plan.</div></div></div></details></div></article>`;
+  }
+  const r=day.recipe;
+  const pills=[`<span class="pill">${r.minutes} min finish</span>`,`<span class="pill">${e(recipeTag(r))}</span>`];
+  if(day.mode==='busy'&&r.minutes>20)pills.push('<span class="pill gold">Longer than quick-night goal</span>');
+  const thawNeeded=(day.usedBases||[]).some(entry=>state.prepared.some(l=>l.id===entry.id&&l.storage==='frozen'));
+  const alreadyPrepared=Object.entries(uses).filter(([b,x])=>x.prepared>0.000001).map(([b,x])=>`${fmt(x.prepared)} portions of ${BASES[b].name.toLowerCase()}`);
+  const pantry=Object.entries(r.direct).map(([k,v])=>`${fmt(v*state.portions)} ${unitOf(k)==='units'?'':unitOf(k)+' '}${nameOf(k).toLowerCase()}`);
+  const expanded=(day.mode==='prep' || d===0)?' open':'';
+  return `<article class="day">${top}<div class="day-body"><div class="pills">${pills.join('')}</div><div class="dish-name">${e(r.name)}</div><p class="dish-detail">${e(r.note)} · Serves ${state.portions}</p><details class="day-plan-details"${expanded}><summary>Prep, cooking and storage steps</summary><div class="steps-wrap"><div class="step"><div class="step-label">Before today</div><div class="step-body">${upstreamBody}${alreadyPrepared.length?`<p class="hint">Prepared stock allocated: ${e(alreadyPrepared.join(', '))}. ${thawNeeded?'Thaw frozen portions safely in the refrigerator before serving; reheat thoroughly.':''}</p>`:''}</div></div><div class="step"><div class="step-label">Cook today</div><div class="step-body">${e(r.method)}${pantry.length?`<div class="hint" style="margin-top:10px">Direct ingredients for this dish: ${e(pantry.join(' · '))}.</div>`:''}</div></div><div class="step"><div class="step-label">Save for later</div><div class="step-body">${e(downstream)}</div></div></div></details><div class="day-footer no-print"><button data-cooked="${d}" class="primary" type="button">✓ Mark cooked</button><span class="hint">Log cooking any day, including in advance. Groceries are deducted once; save and store food safely for later.</span></div></div></article>`;
+ }).join('');
+ document.getElementById('scheduleStatus').textContent=plan.unfilled?`${plan.unfilled} day(s) cannot be filled using your entered quantities. Check the pantry, lower servings, or change a day to “No meal”.`:`${plan.planned} dinner slots filled · ${plan.completed} cooked · ${plan.off} no-meal days. Prepared batches and pinned dinners are included in the projection.`;
+}
+
+function renderRemaining(plan){const included=ITEMS.map(item=>item.id).filter(k=>state.inventory[k]>0||plan.remaining[k]>0);
+ document.getElementById('remaining').innerHTML=included.length?included.map(k=>{const starting=state.inventory[k]||0,remaining=Math.max(0,plan.remaining[k]||0),used=Math.max(0,starting-remaining),pct=starting?Math.max(0,Math.min(100,used/starting*100)):0;return `<div class="remain-item"><div class="remain-meta"><span>${e(nameOf(k))}</span><span>${fmt(remaining)} ${e(unitOf(k))} left</span></div><div class="bar" title="${fmt(used)} ${e(unitOf(k))} projected used"><span style="width:${pct.toFixed(1)}%"></span></div></div>`}).join(''):'<p class="empty">Enter ingredients above to see the projected balance.</p>';
+ if(state.prepared.length){const free=Object.keys(BASES).filter(k=>k!=='protein').map(k=>{const left=plan.remainingLots.filter(l=>l.base===k).reduce((a,l)=>a+l.remaining,0);return BASES[k].name+': '+fmt(left);}).join(' · ');document.getElementById('remaining').insertAdjacentHTML('beforeend',`<p class="hint" style="margin-top:15px">Unallocated prepared portions (check storage dates): ${e(free)}.</p>`);}
+}
+function renderMeals(){const only=document.getElementById('readyOnly').checked;let readyCount=0;const html=RECIPES.map(recipe=>{const info=check(state.inventory,recipe,state.portions);if(info.ok)readyCount++;if(only&&!info.ok)return '';return `<article class="meal-card"><header><h3>${e(recipe.name)}</h3><span class="pill smallpill ${info.ok?'':'gold'}">${info.ok?'Ready now':'Needs items'}</span></header><p>${e(recipe.note)}</p><div class="hint">${recipe.minutes} min finish · ${e(recipeTag(recipe))}</div><details><summary>Ingredients & method</summary><p><strong>For ${state.portions}:</strong> ${e(Object.entries(info.needs).map(([k,v])=>`${fmt(v*state.portions)} ${unitOf(k)==='units'?'':unitOf(k)+' '}${nameOf(k).toLowerCase()}`).join(' · '))}.</p><p>${e(recipe.method)}</p>${info.ok?'':`<p class="warning">Missing: ${fmtMissing(info.gaps)}</p>`}</details></article>`;}).join('');document.getElementById('meals').innerHTML=html||'<p class="empty">Nothing meets the current pantry amounts. Uncheck the filter to see all possible meals.</p>';document.getElementById('readyOnly').setAttribute('aria-label',`${readyCount} recipes ready. Show only ready recipes`);}
+function buildSummary(plan){const lines=[`REMIX KITCHEN — WEEK OF ${state.startDate}`,`Household: ${state.portions} people`,`${plan.planned} planned dinners; ${plan.unfilled} inventory gaps; ${plan.off} no-meal days`,``];for(let i=0;i<7;i++){const day=plan.days[i];lines.push(`${labelDay(i)} ${labelDate(i)} — ${MODES.find(m=>m[0]===day.mode)[1]}`);if(day.off){lines.push('  No meal planned.','');continue;}
+  if(!day.recipe){lines.push(`  NO MEAL: ${day.suggested?.name||'Try another dish'}; missing ${listGaps(day.gaps).join(', ')}`,'');continue;}
+  lines.push(`  DINNER: ${day.recipe.name} (${day.recipe.minutes} min finish)${day.done?' — COOKED'+(day.done.eaten?' & EATEN':''):''}`);
+  for(const [b,obj] of Object.entries(plan.prep[i]))lines.push(`  PREP: ${BASES[b].name} — ${fmt(obj.qty)} portions for ${obj.targets.map(labelDay).join(', ')}`);
+  for(const [b,obj] of Object.entries(plan.uses[i]))if(obj.cookDay<i&&obj.toPrep>0.000001)lines.push(`  PREP PLAN: ${BASES[b].name} suggested for ${labelDay(obj.cookDay)} (not marked prepared)`);
+  lines.push(`  COOK: ${day.recipe.method}`);
+  lines.push('  STORE: Cool promptly, refrigerate leftovers within 2 hours; use within 3–4 days or freeze.','');
+ }
+ lines.push('ACTUALLY PREPARED LOTS:');for(const lot of state.prepared)lines.push(`  ${BASES[lot.base].name}: ${fmt(lot.remaining)} of ${fmt(lot.qty)} portions, ${lot.storage}, prepared ${lot.madeAt}`);lines.push('','PROJECTED REMAINING:');ITEMS.filter(item=>state.inventory[item.id]>0).forEach(item=>lines.push(`  ${item.name}: ${fmt(plan.remaining[item.id])} ${item.unit}`));lines.push('', 'Note: Meal-sized portions and can-equivalents are estimates. Planned prep is only recorded when marked Prepared. Discarding a batch does not refund raw groceries. Rice should be cooled especially promptly.');return lines.join('\n');}
+function refreshBatchSelect(){const select=document.getElementById('batchDay');if(!select)return;const day=state.modes.indexOf('prep');select.innerHTML=`<option value="-1" ${day<0?'selected':''}>None · cook as you go</option>`+Array.from({length:7},(_,i)=>`<option value="${i}" ${day===i?'selected':''}>${labelDay(i)} ${labelDate(i)}</option>`).join('');}
+function markPrepared(index,base,storage){const proposed=lastPlan.prep[index]?.[base];if(!proposed||!['rice','tomato','roast'].includes(base)||!['fridge','frozen'].includes(storage))return;
+ if(proposed.targets.some(d=>daysApart(localToday(),isoForDay(d))<0)){showStatus('This plan includes a past dinner. Change the week before recording new prep.');return;}
+ if(storage==='fridge'&&proposed.targets.some(d=>daysApart(localToday(),isoForDay(d))>3)){showStatus('That batch would be stored in the fridge too long before a planned dinner. Choose freezer instead.');return;}
+ const test=evaluateBase(resourcesNow(),base,proposed.qty,localToday());if(!test.ok){showStatus('Could not mark base prepared: missing '+listGaps(test.gaps).join(', ')+'. Update your checklist.');return;}
+ if(state.prepared.length>=200){showStatus('Prepared batch list is full. Export a backup and clear older records before adding more.');return;}
+ state.inventory=test.resources.raw;for(const id of Object.keys(test.spent))state.stashed[id]=state.inventory[id];
+ const lot={id:`lot_${Date.now()}_${state.sequence++}`,base,qty:round(proposed.qty),remaining:round(proposed.qty),madeAt:localToday(),storage,discarded:0,spentRaw:test.spent};
+ state.prepared.push(lot);renderIngredients();rerender();showStatus(`${BASES[base].name}: ${fmt(proposed.qty)} portions recorded as ${storage==='frozen'?'frozen':'refrigerated'}. Raw pantry ingredients deducted once.`);
+}
+function freezeLot(id){const lot=state.prepared.find(l=>l.id===id);if(!lot||lot.storage!=='fridge')return;
+ if(daysApart(lot.madeAt,localToday())>3){showStatus('This batch is past the 3-day fridge planning window. Do not freeze it to extend storage.');return;}
+ lot.storage='frozen';rerender();showStatus(`${BASES[lot.base].name} marked frozen.`);
+}
+function discardLot(id){const lot=state.prepared.find(l=>l.id===id);if(!lot||lot.remaining<=0.000001)return;
+ const remaining=round(lot.remaining);
+ if(!window.confirm(`Discard ${fmt(remaining)} remaining portions of ${BASES[lot.base].name}? This records food as discarded, and does not restore raw ingredients.`))return;
+ lot.discarded=round((lot.discarded||0)+remaining);lot.remaining=0;
+ rerender();showStatus(`${fmt(remaining)} remaining prepared portions discarded. The original raw ingredients remain deducted.`);
+}
+function undoPrep(id){const index=state.prepared.findIndex(l=>l.id===id);if(index<0)return;const lot=state.prepared[index];
+ if(round(lot.qty-lot.remaining)>0.000001){showStatus('This batch has already been used or discarded. Only untouched batches can have their prep entry undone.');return;}
+ if(lot.storage==='fridge'&&daysApart(lot.madeAt,localToday())>3){showStatus('This batch is past its fridge window, so the ingredients cannot be restored as fresh inventory.');return;}
+ for(const [item,qty] of Object.entries(lot.spentRaw)){state.inventory[item]=round((state.inventory[item]||0)+qty);state.stashed[item]=state.inventory[item];}
+ state.prepared.splice(index,1);renderIngredients();rerender();showStatus('Prepared batch removed. Its raw ingredient quantities were restored.');
+}
+function markCooked(index){const day=lastPlan.days[index];if(!day?.recipe||day.done)return;
+ const cookedAt=localToday();
+ const test=evaluateMeal(resourcesNow(),day.recipe,state.portions,cookedAt);
+ if(!test.ok){showStatus('Cannot mark cooked: available groceries or prepared base portions are short of '+listGaps(test.gaps).join(', ')+'. Update the pantry or choose another meal.');return;}
+ state.inventory=test.resources.raw;for(const id of Object.keys(test.spent))state.stashed[id]=state.inventory[id]||0;
+ for(const t of test.usedBases){const lot=state.prepared.find(l=>l.id===t.id);if(lot)lot.remaining=round(lot.remaining-t.qty);}
+ state.done[isoForDay(index)]={recipeId:day.recipe.id,servings:state.portions,spent:test.spent,usedBases:test.usedBases,eaten:false,cookedAt};
+ renderIngredients();rerender();showStatus(`${labelDay(index)}: ${day.recipe.name} marked cooked${cookedAt<isoForDay(index)?" in advance; refrigerate promptly or freeze if serving later":""}. Used ${test.usedBases.length?'prepared batches and ':''}raw groceries without double deduction.`);
+}
+function markEaten(index){const rec=state.done[isoForDay(index)];if(!rec)return;rec.eaten=true;rerender();showStatus(`${labelDay(index)} meal marked eaten.`);}
+function undoCooked(index){const key=isoForDay(index),rec=state.done[key];if(!rec)return;
+ for(const t of rec.usedBases||[]){const lot=state.prepared.find(l=>l.id===t.id);if(!lot){showStatus('Cannot undo: a prepared batch record is missing. Restore the original backup before continuing.');return;}}
+ for(const [id,qty] of Object.entries(rec.spent)){state.inventory[id]=round((state.inventory[id]||0)+qty);state.stashed[id]=state.inventory[id];}
+ for(const t of rec.usedBases||[]){const lot=state.prepared.find(l=>l.id===t.id);lot.remaining=round(Math.min(lot.qty,lot.remaining+t.qty));}
+ delete state.done[key];renderIngredients();rerender();showStatus('Cooked status undone. Raw groceries and prepared base portions restored.');
+}
+function rerender(){lastPlan=choosePlan();renderStats(lastPlan);renderBases(lastPlan);renderWeek(lastPlan);renderRemaining(lastPlan);renderMeals();refreshBatchSelect();save();}
+function init(){document.getElementById('startDate').value=state.startDate;document.getElementById('portions').value=String(state.portions);renderIngredients();rerender();
+ document.getElementById('ingredients').addEventListener('change',ev=>{
+  const have=ev.target.closest('[data-have]'),amount=ev.target.closest('[data-item]');
+  if(have){const id=have.dataset.have;
+   if(have.checked)state.inventory[id]=Math.max(0.01,state.stashed[id]||DEFAULT_AMOUNT[id]||1);
+   else{if(state.inventory[id]>0)state.stashed[id]=state.inventory[id];state.inventory[id]=0;}
+   renderIngredients();rerender();
+   showPantryFeedback((have.checked?'Added ':'Removed ')+nameOf(id)+'. '+lastPlan.planned+' of 7 dinners allocated.');return;
+  }
+  if(amount){const id=amount.dataset.item,n=Number(amount.value);
+   state.inventory[id]=Number.isFinite(n)?Math.max(0,Math.min(10000,n)):0;
+   if(state.inventory[id]>0)state.stashed[id]=state.inventory[id];
+   renderIngredients();rerender();
+   showPantryFeedback(nameOf(id)+' set to '+fmt(state.inventory[id])+' '+unitOf(id)+'. '+lastPlan.planned+' of 7 dinners allocated.');
+  }
+ });
+ document.getElementById('startDate').addEventListener('change',ev=>{if(/^\d{4}-\d{2}-\d{2}$/.test(ev.target.value)){state.startDate=ev.target.value;rerender();}});
+ document.getElementById('portions').addEventListener('change',ev=>{state.portions=Math.min(8,Math.max(1,Number(ev.target.value)||4));rerender();});
+ document.getElementById('week').addEventListener('change',ev=>{const mode=ev.target.closest('[data-mode]'),pin=ev.target.closest('[data-pin]');if(mode){const idx=Number(mode.dataset.mode);if(mode.value==='prep')state.modes=state.modes.map((m,i)=>i!==idx&&m==='prep'?'normal':m);state.modes[idx]=mode.value;}if(pin)state.pins[Number(pin.dataset.pin)]=pin.value;rerender();});
+ document.getElementById('week').addEventListener('click',ev=>{
+  const btn=ev.target.closest('button[data-cooked],button[data-eaten],button[data-undo],button[data-prep]');if(!btn)return;
+  if(btn.hasAttribute('data-prep')){const [day,base]=btn.dataset.prep.split(':');markPrepared(Number(day),base,btn.dataset.storage);}
+  else if(btn.hasAttribute('data-cooked'))markCooked(Number(btn.dataset.cooked));
+  else if(btn.hasAttribute('data-eaten'))markEaten(Number(btn.dataset.eaten));
+  else if(btn.hasAttribute('data-undo'))undoCooked(Number(btn.dataset.undo));
+ });
+ document.getElementById('batchDay').addEventListener('change',ev=>{
+  const next=Number(ev.target.value);if(!Number.isInteger(next)||next< -1||next>6)return;
+  state.modes=state.modes.map(mode=>mode==='prep'?'normal':mode);if(next>=0)state.modes[next]='prep';rerender();
+ });
+ document.getElementById('preparedLots').addEventListener('click',ev=>{const btn=ev.target.closest('button[data-freeze],button[data-discard],button[data-unprep]');if(!btn)return;if(btn.hasAttribute('data-freeze'))freezeLot(btn.dataset.freeze);else if(btn.hasAttribute('data-discard'))discardLot(btn.dataset.discard);else undoPrep(btn.dataset.unprep);});
+ document.getElementById('readyOnly').addEventListener('change',renderMeals);
+ document.getElementById('autoPlanBtn').addEventListener('click',()=>{rerender();showStatus('Rebuilt: '+lastPlan.planned+' dinner slots filled, '+lastPlan.unfilled+' shortages. Meal selections may look the same if the available ingredients lead to the same plan.');});
+ document.getElementById('exampleBtn').addEventListener('click',()=>{state.inventory=saneInventory(EXAMPLE);state.stashed=saneInventory(EXAMPLE);state.done={};state.prepared=[];renderIngredients();rerender();showStatus('Example pantry loaded. Replace these quantities with what you have.');});
+ document.getElementById('clearBtn').addEventListener('click',()=>{state.stashed=saneInventory({...state.stashed,...Object.fromEntries(Object.entries(state.inventory).filter(([k,v])=>v>0))});state.inventory=saneInventory({});state.done={};state.prepared=[];renderIngredients();rerender();showStatus('Checklist and all cooked/prepared records cleared. Enter your actual food-bank supplies.');});
+ document.getElementById('printBtn').addEventListener('click',()=>window.print());
+ document.getElementById('exportBtn').addEventListener('click',()=>{
+  const obj={app:'household-remix-kitchen',version:3,savedAt:new Date().toISOString(),data:state};
+  const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='remix-kitchen-backup.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);showStatus('Backup saved as a JSON file.');
+ });
+ document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
+ document.getElementById('importFile').addEventListener('change',async ev=>{
+  const file=ev.target.files?.[0];if(!file)return;
+  try{const saved=JSON.parse(await file.text());if(saved.app!=='household-remix-kitchen'||!saved.data||typeof saved.data!=='object')throw Error('Not a Remix Kitchen backup');
+   state=cleanState(saved.data);document.getElementById('startDate').value=state.startDate;document.getElementById('portions').value=String(state.portions);
+   renderIngredients();rerender();showStatus('Backup loaded successfully.');
+  }catch(err){showStatus('Could not load backup: '+(err.message||'Invalid file'));}ev.target.value='';
+ });
+ document.getElementById('copyBtn').addEventListener('click',async()=>{const summary=buildSummary(lastPlan);try{await navigator.clipboard.writeText(summary);showStatus('Weekly plan copied to clipboard.');}catch(err){const tmp=document.createElement('textarea');tmp.value=summary;tmp.style.position='fixed';tmp.style.opacity='0';document.body.appendChild(tmp);tmp.select();try{if(document.execCommand('copy'))showStatus('Weekly plan copied to clipboard.');else showStatus('Clipboard permission unavailable. Use Print or Save backup instead.');}catch(e){showStatus('Clipboard unavailable. Use the Print button to save or print your plan.');}tmp.remove();}});
+  // Signal a fully initialized application only after the render and event hooks succeed.
+  document.querySelectorAll('[data-requires-engine]').forEach(el=>el.disabled=false);
+  document.getElementById('runtimeNotice').hidden=true;
+  document.getElementById('appHealth').hidden=false;
+  document.getElementById('pantryFeedback').textContent='Ready · check ingredients or adjust their amounts; your schedule updates automatically.';
+}
+let toastTimer=null;
+function showStatus(msg){
+ const status=document.getElementById('scheduleStatus');if(status)status.textContent=msg;
+ const toast=document.getElementById('actionToast');
+ if(toast){toast.textContent=msg;toast.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{toast.hidden=true;},6500);}
+}
+function showPantryFeedback(msg){
+ const el=document.getElementById('pantryFeedback');if(el)el.textContent=msg;
+ showStatus(msg);
+}
+try{init();}catch(err){if(window.remixReportError)window.remixReportError(err&&err.message||String(err));}
+})();
+</script>
+<div id="actionToast" class="action-toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
