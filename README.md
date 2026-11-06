@@ -19,7 +19,8 @@ The entry page is `index.html` in the repository root. Avoid opening a downloade
 
 - Check ingredients on hand and adjust quantities.
 - Generate a seven-day dinner plan for the household.
-- Prepare four reusable cooking bases and track servings.
+- Prepare five reusable cooking bases (including plain lentils) and track servings.
+- Explore 31 pantry-only recipes (22 main dishes and 9 breakfast/light options) with a recipe filter.
 - View upstream prep steps and downstream storage guidance.
 - Mark meals cooked, undo actions, and reserve manually chosen meals.
 - Export/import a JSON backup of locally saved inventory and schedules.
